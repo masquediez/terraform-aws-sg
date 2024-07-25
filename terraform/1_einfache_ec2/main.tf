@@ -11,6 +11,6 @@ resource "aws_instance" "erste_instanz" {
   vpc_security_group_ids = ["sg-0365bdde09969c499"]  # Reemplaza "sg-xxxxxxxx" con el ID del nuevo grupo de seguridad
 
   tags = {
-    Name = "erste_instanz"
+    Name = "primera_instancia"
   }
 }
