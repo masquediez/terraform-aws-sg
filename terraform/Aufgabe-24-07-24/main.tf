@@ -4,6 +4,10 @@ provider "aws" {
 
 resource "aws_security_group" "sg_test_aufgabe" {
   # keine verpflichtende Argumente bei Security-Groups
+
+  tags = {
+    Name = "sg_test_aufgabe"
+  }
 }
 
 resource "aws_security_group_rule" "ingress_ssh" {
@@ -33,6 +37,16 @@ resource "aws_security_group_rule" "https" {
   cidr_blocks = ["0.0.0.0/0"]
 }
 
+# egress rule Security-Groups
+resource "aws_security_group_rule" "egress_https" {
+  from_port          = 443
+  to_port            = 443
+  security_group_id  = aws_security_group.sg_test_aufgabe.id
+  protocol           = "tcp"
+  type               = "egress"
+  cidr_blocks        = ["0.0.0.0/0"]
+}
+
 resource "aws_vpc" "test-vpc" {
   cidr_block = "10.0.0.0/16"
 
@@ -42,7 +56,7 @@ resource "aws_vpc" "test-vpc" {
 }
 
 resource "aws_instance" "Aufgabe" {
-  instance_type          = "t2.nano"
+  instance_type          = "t2.micro"
   ami                    = "ami-01e444924a2233b07"
   vpc_security_group_ids = [ aws_security_group.sg_test_aufgabe.id ] 
 
